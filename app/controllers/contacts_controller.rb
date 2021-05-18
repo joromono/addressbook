@@ -4,6 +4,12 @@ class ContactsController < ApplicationController
   # GET /contacts or /contacts.json
   def index
     @contacts = Contact.all
+    @contacts = @contacts.where("name ilike '%#{params[:search]}%'") if params[:search]
+    @contacts = @contacts.order(params[:sort].split("-").join(" ")) if params[:sort]
+  end
+
+  def show
+    @contact = Contact.find(params[:id])
   end
 
   # GET /contacts/1 or /contacts/1.json
